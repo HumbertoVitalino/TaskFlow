@@ -1,6 +1,6 @@
-﻿namespace Core.Entities;
+﻿namespace Core.UseCases.TaskUseCases.Boundaries;
 
-public sealed class Task : BaseEntity
+public sealed class CreateTaskResponse
 {
     public int Id { get; set; }
     public string Title { get; set; }
