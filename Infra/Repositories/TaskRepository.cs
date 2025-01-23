@@ -8,7 +8,7 @@ namespace Infra.Repositories
     {
         public TaskRepository(AppDbContext context) : base(context) { }
 
-        public async Task<Core.Entities.Task> UpdateStatus(string status, int taskId, CancellationToken cancellationToken)
+        public async Task<Core.Entities.Task> UpdateStatus(int status, int taskId, CancellationToken cancellationToken)
         {
             var task = await _context.Set<Core.Entities.Task>().FirstOrDefaultAsync(t => t.Id == taskId, cancellationToken);
 

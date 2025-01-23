@@ -2,4 +2,4 @@
 
 namespace Core.UseCases.TaskUseCases.Boundaries;
 
-public sealed class CreateTaskRequest(string Tittle, string? Description, DateTime DueDate) : IRequest<CreateTaskResponse>;
+public sealed record CreateTaskRequest(string Title, string? Description, int? Status, DateTime DueDate) : IRequest<CreateTaskResponse>;
