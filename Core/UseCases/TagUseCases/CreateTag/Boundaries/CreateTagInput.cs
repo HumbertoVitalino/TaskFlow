@@ -3,4 +3,4 @@ using MediatR;
 
 namespace Core.UseCases.TagUseCases.CreateTag.Boundaries;
 
-public sealed record CreateTagInput(string Name, string Description): IRequest<TagOutput>;
+public sealed record CreateTagInput(string Name, string Description) : IRequest<TagOutput>;
