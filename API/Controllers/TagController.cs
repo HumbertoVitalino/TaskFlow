@@ -1,4 +1,5 @@
 ﻿using Core.UseCases.TagUseCases.CreateTag.Boundaries;
+using Core.UseCases.TagUseCases.DeleteTag.Boundaries;
 using Core.UseCases.TagUseCases.GetAllTags.Boundaries;
 using Core.UseCases.TagUseCases.Output;
 using MediatR;
@@ -28,6 +29,17 @@ public class TagController : ControllerBase
     public async Task<ActionResult<TagOutput>> Create(CreateTagInput input, CancellationToken cancellationToken)
     {
         var output = await _mediatr.Send(input, cancellationToken);
+        return Ok(output);
+    }
+
+    [HttpDelete("DeleteTag/{id}")]
+    public async Task<ActionResult<TagOutput>> DeleteById(int? id, DeleteTagInput input, CancellationToken cancellationToken)
+    {
+        if (id is null) return BadRequest();
+
+        var deleteTagInput = new DeleteTagInput(id.Value);
+
+        var output = await _mediatr.Send(deleteTagInput, cancellationToken);
         return Ok(output);
     }
 
