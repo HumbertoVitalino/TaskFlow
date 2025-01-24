@@ -1,4 +1,5 @@
 ﻿using Core.UseCases.TaskUseCases.Boundaries;
+using Core.UseCases.TaskUseCases.DeleteTask.Boundaries;
 using Core.UseCases.TaskUseCases.GetAllTasks.Boundaries;
 using Core.UseCases.TaskUseCases.Output;
 using MediatR;
@@ -28,6 +29,18 @@ public class TaskController : ControllerBase
     public async Task<ActionResult<TaskOutput>> Create(CreateTaskInput input, CancellationToken cancellationToken)
     {
         var output = await _mediatr.Send(input, cancellationToken);
+        return Ok(output);
+    }
+
+    [HttpDelete("DeleteTask/{id}")]
+    public async Task<ActionResult<TaskOutput>> DeleteTaskById(int? id, CancellationToken cancellationToken)
+    {
+        if (id is null)
+            return BadRequest();
+
+        var deleteTaskInput = new DeleteTaskInput(id.Value);
+
+        var output = await _mediatr.Send(deleteTaskInput, cancellationToken);
         return Ok(output);
     }
 }
