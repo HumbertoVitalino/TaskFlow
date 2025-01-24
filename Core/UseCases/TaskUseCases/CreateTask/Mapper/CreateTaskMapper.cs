@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Core.UseCases.TaskUseCases.Boundaries;
+using Core.UseCases.TaskUseCases.Output;
 
 namespace Core.UseCases.TaskUseCases.Mapper;
 
@@ -7,7 +8,7 @@ public sealed class CreateTaskMapper : Profile
 {
     public CreateTaskMapper()
     {
-        CreateMap<CreateTaskRequest, Entities.Task>();
-        CreateMap<Entities.Task, CreateTaskResponse>();
+        CreateMap<CreateTaskInput, Entities.Task>();
+        CreateMap<Entities.Task, TaskOutput>();
     }
 }

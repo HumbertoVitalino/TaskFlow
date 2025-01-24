@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
 using Core.Interfaces;
 using Core.UseCases.TaskUseCases.Boundaries;
+using Core.UseCases.TaskUseCases.Output;
 using MediatR;
 
-namespace Core.UseCases.TaskUseCases;
+namespace Core.UseCases.TaskUseCases.CreateTask;
 
-public class CreateTask : IRequestHandler<CreateTaskRequest, CreateTaskResponse>
+public class CreateTask : IRequestHandler<CreateTaskInput, TaskOutput>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly ITaskRepository _taskRepository;
@@ -18,7 +19,7 @@ public class CreateTask : IRequestHandler<CreateTaskRequest, CreateTaskResponse>
         _mapper = mapper;
     }
 
-    public async Task<CreateTaskResponse> Handle(CreateTaskRequest request, CancellationToken cancellationToken)
+    public async Task<TaskOutput> Handle(CreateTaskInput request, CancellationToken cancellationToken)
     {
         var task = _mapper.Map<Entities.Task>(request);
 
@@ -26,6 +27,6 @@ public class CreateTask : IRequestHandler<CreateTaskRequest, CreateTaskResponse>
 
         await _unitOfWork.Commit(cancellationToken);
 
-        return _mapper.Map<CreateTaskResponse>(task);
+        return _mapper.Map<TaskOutput>(task);
     }
 }
