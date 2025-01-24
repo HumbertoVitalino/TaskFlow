@@ -2,6 +2,7 @@
 using Core.UseCases.TaskUseCases.DeleteTask.Boundaries;
 using Core.UseCases.TaskUseCases.GetAllTasks.Boundaries;
 using Core.UseCases.TaskUseCases.Output;
+using Core.UseCases.TaskUseCases.UpdateTask.Boundaries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,6 +29,15 @@ public class TaskController : ControllerBase
     [HttpPost("CreateTask")]
     public async Task<ActionResult<TaskOutput>> Create(CreateTaskInput input, CancellationToken cancellationToken)
     {
+        var output = await _mediatr.Send(input, cancellationToken);
+        return Ok(output);
+    }
+
+    [HttpPut("UpdateTask/{id}")]
+    public async Task<ActionResult<TaskOutput>> UpdateById(int? id, UpdateTaskInput input, CancellationToken cancellationToken)
+    {
+        if (id is null || id != input.Id) return BadRequest();
+
         var output = await _mediatr.Send(input, cancellationToken);
         return Ok(output);
     }
