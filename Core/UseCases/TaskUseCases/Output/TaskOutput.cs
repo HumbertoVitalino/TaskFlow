@@ -1,6 +1,6 @@
-﻿namespace Core.UseCases.TaskUseCases.Boundaries;
+﻿namespace Core.UseCases.TaskUseCases.Output;
 
-public sealed class CreateTaskResponse
+public sealed class TaskOutput
 {
     public int Id { get; set; }
     public string Title { get; set; }
