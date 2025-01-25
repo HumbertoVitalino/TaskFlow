@@ -19,9 +19,9 @@ public class CreateTask : IRequestHandler<CreateTaskInput, TaskOutput>
         _mapper = mapper;
     }
 
-    public async Task<TaskOutput> Handle(CreateTaskInput input, CancellationToken cancellationToken)
+    public async Task<TaskOutput> Handle(CreateTaskInput request, CancellationToken cancellationToken)
     {
-        var task = _mapper.Map<Entities.Task>(input);
+        var task = _mapper.Map<Entities.Task>(request);
 
         _taskRepository.Create(task);
 
