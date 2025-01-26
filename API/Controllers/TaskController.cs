@@ -1,4 +1,5 @@
-﻿using Core.UseCases.TaskUseCases.Boundaries;
+﻿using Core.UseCases.TaskUseCases.AddTagToTask.Boundaries;
+using Core.UseCases.TaskUseCases.Boundaries;
 using Core.UseCases.TaskUseCases.DeleteTask.Boundaries;
 using Core.UseCases.TaskUseCases.GetAllTasks.Boundaries;
 using Core.UseCases.TaskUseCases.Output;
@@ -31,6 +32,18 @@ public class TaskController : ControllerBase
     {
         var output = await _mediatr.Send(input, cancellationToken);
         return Ok(output);
+    }
+
+    [HttpPost("AddTagsToTask/{taskId}")]
+    public async Task<ActionResult<TaskTagOutput>> AddTagsToTask(int taskId, int tagId, CancellationToken cancellationToken)
+    {
+        var input = new AddTagToTaskInput(taskId, tagId);
+        var output = await _mediatr.Send(input, cancellationToken);
+
+        if (!output.Sucess)
+            return BadRequest(output.Message);
+
+        return Ok(output.Message);
     }
 
     [HttpPut("UpdateTask/{id}")]
