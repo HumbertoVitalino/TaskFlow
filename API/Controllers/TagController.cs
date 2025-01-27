@@ -2,6 +2,7 @@
 using Core.UseCases.TagUseCases.DeleteTag.Boundaries;
 using Core.UseCases.TagUseCases.GetAllTags.Boundaries;
 using Core.UseCases.TagUseCases.Output;
+using Core.UseCases.TagUseCases.UpdateTag.Boundaries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,8 +33,17 @@ public class TagController : ControllerBase
         return Ok(output);
     }
 
+    [HttpPut("UpdateTag/{id}")]
+    public async Task<ActionResult<TagOutput>> Update(int? id, UpdateTagInput input, CancellationToken cancellationToken)
+    {
+        if (id is null || id != input.Id) return BadRequest();
+
+        var output = await _mediatr.Send(input, cancellationToken);
+        return Ok(output);
+    }
+
     [HttpDelete("DeleteTag/{id}")]
-    public async Task<ActionResult<TagOutput>> DeleteById(int? id, DeleteTagInput input, CancellationToken cancellationToken)
+    public async Task<ActionResult<TagOutput>> DeleteById(int? id, CancellationToken cancellationToken)
     {
         if (id is null) return BadRequest();
 
