@@ -8,7 +8,8 @@ public sealed class CreateTaskMapper : Profile
 {
     public CreateTaskMapper()
     {
-        CreateMap<CreateTaskInput, Entities.Task>();
+        CreateMap<CreateTaskInput, Entities.Task>()
+            .ForMember(dest => dest.Tag, opt => opt.Ignore());
         CreateMap<Entities.Task, TaskOutput>();
     }
 }

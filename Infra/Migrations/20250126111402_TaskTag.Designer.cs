@@ -4,6 +4,7 @@ using Infra.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infra.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250126111402_TaskTag")]
+    partial class TaskTag
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -77,18 +80,28 @@ namespace Infra.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TagId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
+                    b.ToTable("Tasks");
+                });
+
+            modelBuilder.Entity("Core.Entities.TaskTag", b =>
+                {
+                    b.Property<int>("TaskId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TagId")
+                        .HasColumnType("int");
+
+                    b.HasKey("TaskId", "TagId");
+
                     b.HasIndex("TagId");
 
-                    b.ToTable("Tasks");
+                    b.ToTable("TaskTags");
                 });
 
             modelBuilder.Entity("Core.Entities.User", b =>
@@ -119,18 +132,33 @@ namespace Infra.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Core.Entities.Task", b =>
+            modelBuilder.Entity("Core.Entities.TaskTag", b =>
                 {
                     b.HasOne("Core.Entities.Tag", "Tag")
-                        .WithMany("Tasks")
-                        .HasForeignKey("TagId");
+                        .WithMany("TaskTags")
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Entities.Task", "Task")
+                        .WithMany("TaskTags")
+                        .HasForeignKey("TaskId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Tag");
+
+                    b.Navigation("Task");
                 });
 
             modelBuilder.Entity("Core.Entities.Tag", b =>
                 {
-                    b.Navigation("Tasks");
+                    b.Navigation("TaskTags");
+                });
+
+            modelBuilder.Entity("Core.Entities.Task", b =>
+                {
+                    b.Navigation("TaskTags");
                 });
 #pragma warning restore 612, 618
         }
