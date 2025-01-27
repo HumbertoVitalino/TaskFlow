@@ -31,7 +31,7 @@ public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
         _context.Remove(entity);
     }
 
-    public async Task<T> Get(int id, CancellationToken cancellationToken)
+    public async Task<T> Get(int? id, CancellationToken cancellationToken)
     {
         return await _context.Set<T>().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
