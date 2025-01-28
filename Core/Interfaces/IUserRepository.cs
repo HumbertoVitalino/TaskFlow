@@ -3,5 +3,5 @@
 namespace Core.Interfaces;
 
 public interface IUserRepository : IBaseRepository<User>
-{
+{    
 }
