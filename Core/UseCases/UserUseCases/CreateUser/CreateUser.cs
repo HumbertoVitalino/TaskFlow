@@ -20,14 +20,37 @@ public class CreateUser : IRequestHandler<CreateUserInput, UserOutput>
         _unitOfWork = unitOfWork;
     }
 
+    private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+    {
+        using (var hmac = new System.Security.Cryptography.HMACSHA512())
+        {
+            passwordSalt = hmac.Key;
+            passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+        }
+    }
+
     public async Task<UserOutput> Handle(CreateUserInput input, CancellationToken cancellationToken)
     {
+        var existingUser = await _userRepository.GetByEmailAsync(input.Email, cancellationToken);
+        if (existingUser != null)
+        {
+            return new UserOutput
+            {
+                Data = string.Empty,
+                Message = "This email is already in use;",
+                Status = false
+            };
+        }
+
+        CreatePasswordHash(input.Password, out byte[] passwordHash, out byte[] passwordSalt);
+
         var user = _mapper.Map<User>(input);
+        user.PasswordHash = passwordHash;
+        user.PasswordSalt = passwordSalt;
 
         _userRepository.Create(user);
-
         await _unitOfWork.Commit(cancellationToken);
 
         return _mapper.Map<UserOutput>(user);
-    }
+    }   
 }
