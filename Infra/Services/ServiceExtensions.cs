@@ -16,6 +16,7 @@ public static class ServiceExtensions
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<ITaskRepository, TaskRepository>();
         services.AddScoped<ITagRepository, TagRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
     }
 }
 
