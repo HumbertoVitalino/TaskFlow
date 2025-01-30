@@ -20,6 +20,9 @@ public class UserController : ControllerBase
     [HttpPost("CreateUser")]
     public async Task<ActionResult<UserOutput>> CreateUser(CreateUserInput input, CancellationToken cancellationToken)
     {
+        if (input.Password != input.Confirmation)
+            return BadRequest();
+
         var output = await _mediatr.Send(input, cancellationToken);
         return Ok(output);
     }
