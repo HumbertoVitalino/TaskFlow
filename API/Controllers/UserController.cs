@@ -1,4 +1,5 @@
 ﻿using Core.UseCases.UserUseCases.CreateUser.Boundaries;
+using Core.UseCases.UserUseCases.LoginUser.Boundaries;
 using Core.UseCases.UserUseCases.Output;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -16,8 +17,15 @@ public class UserController : ControllerBase
         _mediatr = mediatr;
     }
 
-    [HttpPost]
+    [HttpPost("CreateUser")]
     public async Task<ActionResult<UserOutput>> CreateUser(CreateUserInput input, CancellationToken cancellationToken)
+    {
+        var output = await _mediatr.Send(input, cancellationToken);
+        return Ok(output);
+    }
+
+    [HttpPost("Login")]
+    public async Task<ActionResult<UserOutput>> Login(LoginUserInput input, CancellationToken cancellationToken)
     {
         var output = await _mediatr.Send(input, cancellationToken);
         return Ok(output);
