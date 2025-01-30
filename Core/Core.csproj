@@ -10,6 +10,13 @@
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
 	<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" />
     <PackageReference Include="MediatR" Version="12.4.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.11" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.3.1" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="UseCases\UserUseCases\LoginUser\Mapper\" />
   </ItemGroup>
 
 </Project>

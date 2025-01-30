@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.ConfigurePersistenceApp(builder.Configuration);
-builder.Services.ConfigureApplicationApp();
+builder.Services.ConfigureApplicationApp(builder.Configuration);
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
@@ -27,6 +27,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
