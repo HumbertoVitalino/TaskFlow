@@ -2,6 +2,7 @@
 using Core.UseCases.TaskUseCases.Boundaries;
 using Core.UseCases.TaskUseCases.DeleteTask.Boundaries;
 using Core.UseCases.TaskUseCases.GetAllTasks.Boundaries;
+using Core.UseCases.TaskUseCases.GetTasksByTag.Boundaries;
 using Core.UseCases.TaskUseCases.Output;
 using Core.UseCases.TaskUseCases.UpdateTask.Boundaries;
 using MediatR;
@@ -24,6 +25,13 @@ public class TaskController : ControllerBase
     public async Task<ActionResult<List<TaskOutput>>> GetAll(CancellationToken cancellationToken)
     {
         var output = await _mediatr.Send(new GetAllTasksInput(), cancellationToken);
+        return Ok(output);
+    }
+
+    [HttpGet("GetTasksByTag/{id}")]
+    public async Task<ActionResult<List<TaskOutput>>> GetTasksByTag(int id, CancellationToken cancellationToken)
+    {
+        var output = await _mediatr.Send(new GetTasksByTagInput(id), cancellationToken);
         return Ok(output);
     }
 
