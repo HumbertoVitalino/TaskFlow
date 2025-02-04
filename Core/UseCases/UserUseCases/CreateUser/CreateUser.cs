@@ -42,6 +42,16 @@ public class CreateUser : IRequestHandler<CreateUserInput, UserOutput>
             };
         }
 
+        if (input.Password != input.Confirmation)
+        {
+            return new UserOutput
+            {
+                Data = string.Empty,
+                Message = "Confirm your password",
+                Status = false
+            };
+        }
+
         CreatePasswordHash(input.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
         var user = _mapper.Map<User>(input);
