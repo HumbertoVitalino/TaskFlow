@@ -1,6 +1,7 @@
 ﻿using AutoBogus;
 using AutoMapper;
 using Core.Interfaces;
+using Core.UseCases.TagUseCases.Output;
 using Core.UseCases.TaskUseCases.Boundaries;
 using Core.UseCases.TaskUseCases.CreateTask;
 using Core.UseCases.TaskUseCases.Output;
@@ -10,9 +11,9 @@ namespace UnitTests.TaskUseCasesTest;
 
 public class CreateTaskTestFixture
 {
-    private readonly Mock<IUnitOfWork> _unitOfWorkMock = new();
-    private readonly Mock<ITaskRepository> _taskRepositoryMock = new();
-    private readonly Mock<ITagRepository> _tagRepositoryMock = new();
+    private readonly Mock<IUnitOfWork> _unitOfWork = new();
+    private readonly Mock<ITaskRepository> _taskRepository = new();
+    private readonly Mock<ITagRepository> _tagRepository = new();
     private readonly Mock<IMapper> _mapperMock = new();
     private readonly CreateTask _useCase;
 
@@ -25,30 +26,10 @@ public class CreateTaskTestFixture
 
     private CreateTask SetupCreateTaskUseCase()
     {
-        _unitOfWorkMock
+        _unitOfWork
             .Setup(u => u.Commit(It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
 
-        SetupMapperMock();
-
-        _tagRepositoryMock
-            .Setup(repo => repo.Get(It.IsAny<int>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync((int tagId, CancellationToken _) => new Core.Entities.Tag
-            {
-                Id = tagId,
-                Name = $"Tag {tagId}"
-            });
-
-        return new CreateTask(
-            _unitOfWorkMock.Object,
-            _taskRepositoryMock.Object,
-            _mapperMock.Object,
-            _tagRepositoryMock.Object
-        );
-    }
-
-    private void SetupMapperMock()
-    {
         _mapperMock
             .Setup(m => m.Map<Core.Entities.Task>(It.IsAny<CreateTaskInput>()))
             .Returns((CreateTaskInput input) => new Core.Entities.Task
@@ -64,8 +45,25 @@ public class CreateTaskTestFixture
             {
                 Id = task.Id,
                 Title = task.Title,
-                Description = task.Description
+                Description = task.Description,
+                Status = 0,
+                Tag = task.Tag is not null ? new TagOutput { Id = task.Tag.Id, Name = task.Tag.Name } : null
             });
+
+        _tagRepository
+            .Setup(repo => repo.Get(It.IsAny<int>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync((int tagId, CancellationToken _) => new Core.Entities.Tag
+            {
+                Id = tagId,
+                Name = $"Tag {tagId}"
+            });
+
+        return new CreateTask(
+            _unitOfWork.Object,
+            _taskRepository.Object,
+            _mapperMock.Object,
+            _tagRepository.Object
+        );
     }
 
     public async Task<TaskOutput> HandleUseCaseAsync(CreateTaskInput input) =>
@@ -73,7 +71,7 @@ public class CreateTaskTestFixture
 
     public CreateTaskInput SetupValidInput()
         => new AutoFaker<CreateTaskInput>()
-            .RuleFor(x => x.TagId, _ => new Random().Next(1, 1000))
+            .RuleFor(x => x.TagId, _ => 1) // TagId fixo para garantir que sempre há uma Tag válida
             .Generate();
 
     public CreateTaskInput SetupValidInputWithoutTag()
