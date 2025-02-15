@@ -1,40 +1,72 @@
-# TaskFlow
+# 📝 TaskFlow
 
-TaskFlow is a task management application designed to help users track their activities efficiently and in an organized way. The platform provides features like creating, editing, and organizing tasks, offering an intuitive interface to help with time management and daily responsibilities.
+**TaskFlow** is a task management application designed to help users efficiently track their activities in an organized way. The platform provides features such as creating, editing, and managing tasks, offering an intuitive interface to enhance time management and daily productivity.  
 
-## Features
+## 🚀 Features
 
-- **Task Creation**: Add new tasks with descriptions, deadlines, and priorities.
-- **Task Editing**: Edit existing task details.
-- **Mark as Completed**: Mark tasks as completed once finished.
-- **Organize by Priority and Deadline**: Sort tasks by priority or deadline for easier planning.
-- **Task History**: View all past and completed tasks.
+✅ **Task Creation** – Add new tasks with descriptions, deadlines, and priorities.  
+✏️ **Task Editing** – Modify existing task details.  
+✅ **Mark as Completed** – Mark tasks as completed when finished.  
+📌 **Organize by Priority & Deadline** – Sort tasks by priority or deadline for better planning.  
+🕒 **Task History** – View all past and completed tasks.  
+🗂️ **Subtasks** – Manage tasks more effectively by breaking them into smaller subtasks.  
 
-## Technologies Used
+## 🛠️ Technologies Used
 
-- **Backend**: ASP.NET Core
-- **Frontend**: (Future - React)
-- **Database**: (Your chosen database, e.g., SQL Server, MySQL, etc.)
-- **Authentication**: JWT (JSON Web Tokens) for secure authentication and authorization.
+- **Backend**: ASP.NET Core  
+- **Frontend**: *(Planned - React)*  
+- **Database**: *(Planned - SQL Server, MySQL, or similar)*  
+- **Authentication**: JWT (JSON Web Tokens) for secure authentication and authorization.  
 
-## Current Status
+## 📌 Project Status
 
-This project is currently being updated. At the moment, the focus is on developing the backend. The plan for the project is as follows:
+The project is currently in development, with a strong focus on backend implementation. The development plan is as follows:
 
-1. **Complete Backend Development**: The backend is being built and tested.
-2. **Implement Tests and Docker**: After completing the backend, we will implement automated tests and Docker containerization.
-3. **Frontend Development**: The frontend will be developed in React once the backend is finished and fully functional.
+1️⃣ **Complete Backend Development** – Ongoing implementation and testing.  
+2️⃣ **Implement Unit Tests & Docker** – Ensuring reliability and portability.  
+3️⃣ **Frontend Development** – Once the backend is finalized, the frontend will be developed using React.  
 
-## Installation Instructions
+## 📥 Installation Guide
 
-### Prerequisites
+### 🔧 Prerequisites
 
-- [.NET Core SDK](https://dotnet.microsoft.com/download)
-- [Node.js](https://nodejs.org/)
+Ensure you have the following installed:
 
-### Steps to Run the Project
+- [.NET Core SDK](https://dotnet.microsoft.com/download)  
+- [Node.js](https://nodejs.org/) *(for future frontend development)*  
+- A database of choice (SQL Server, MySQL, PostgreSQL, etc.)  
 
-1. **Clone the repository**
+### 🚀 Steps to Run the Project
+
+1. **Clone the repository**  
 
    ```bash
    git clone https://github.com/your-username/taskflow.git
+
+2. **Navigate into the project folder**
+   ```bash
+   cd taskflow
+
+3. **Restore dependencies**
+   ```bash
+   dotnet restore
+
+4. **Run the project**
+   ```bash
+   dotnet run
+
+## 📅 Upcoming Features
+
+🔹 Task & Subtask Relations – When all subtasks are completed, the parent task will automatically be marked as done.
+
+🔹 Task Notifications – Receive reminders for upcoming deadlines.
+
+🔹 Tag Management – Categorize tasks using customizable tags.
+
+🔹 User Authentication & Profiles – Secure login and user-specific task management.
+
+🔹 Frontend Interface – A modern UI built with React.
+
+## 👥 Contributing
+
+Want to contribute? Feel free to submit a pull request or open an issue! 🚀
