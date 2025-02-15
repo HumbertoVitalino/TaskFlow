@@ -8,6 +8,7 @@ public sealed class Task : BaseEntity
     public string? Description { get; set; }
     public DateTime DueDate { get; set; }
     public StatusEnum Status { get; set; }
+    public ICollection<SubTask> SubTasks { get; set; }
     public Tag? Tag { get; set; }
 
     public Task()
