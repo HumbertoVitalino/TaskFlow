@@ -8,5 +8,5 @@ public sealed class SubTaskOutput
     public string Title { get; set; }
     public DateTime DueDate { get; set; }
     public StatusEnum Status { get; set; }
-    public Entities.Task TaskId { get; set; }
+    public int TaskId { get; set; }
 }
