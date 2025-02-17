@@ -11,8 +11,8 @@ public class CreateSubTask : IRequestHandler<CreateSubTaskInput, SubTaskOutput>
 {
     private readonly ITaskRepository _taskRepository;
     private readonly ISubTaskRepository _subTaskRepository;
-    private IMapper _mapper;
-    private IUnitOfWork _unitOfWork;
+    private readonly IMapper _mapper;
+    private readonly IUnitOfWork _unitOfWork;
 
     public CreateSubTask(ITaskRepository taskRepository, ISubTaskRepository subTaskRepository, IMapper mapper, IUnitOfWork unitOfWork)
     {
