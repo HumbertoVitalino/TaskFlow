@@ -24,18 +24,23 @@ public class UpdateSubTask : IRequestHandler<UpdateSubTaskInput, SubTaskOutput>
 
     public async Task<SubTaskOutput> Handle(UpdateSubTaskInput input, CancellationToken cancellationToken)
     {
-        var subtask = await _subTaskRepository.Get(input.IdSubTask, cancellationToken);
+        var subtask = await _subTaskRepository.GetWithTask(input.IdSubTask, cancellationToken);
 
         if (subtask == null)
             throw new KeyNotFoundException($"SubTask with key {input.IdSubTask} not found.");
                 
-        subtask.Status = input.Status;
-        subtask.Title = input.Title;
-        subtask.DueDate = input.DueDate;
+        if(input.Status.HasValue)
+            subtask.Status = input.Status.Value;
+
+        if (!string.IsNullOrWhiteSpace(input.Title))
+            subtask.Title = input.Title;
+
+        if (input.DueDate.HasValue)
+            subtask.DueDate = input.DueDate.Value;
 
         _subTaskRepository.Update(subtask);
 
-        var task = await _taskRepository.Get(subtask.Task.Id, cancellationToken);
+        var task = await _taskRepository.GetWithFK(subtask.Task.Id, cancellationToken);
 
         if (task is not null)
         {
