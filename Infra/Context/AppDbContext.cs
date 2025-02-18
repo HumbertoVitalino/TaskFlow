@@ -9,4 +9,5 @@ public class AppDbContext : DbContext
     public DbSet<Tag> Tags { get; set; }
     public DbSet<Core.Entities.Task> Tasks { get; set; }
     public DbSet<User> Users { get; set; }
+    public DbSet<SubTask> SubTasks { get; set; }
 }
