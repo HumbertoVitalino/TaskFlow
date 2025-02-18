@@ -10,7 +10,7 @@ namespace Infra.Repositories
 
         public async Task<List<Core.Entities.Task>> GetAllWithTag(CancellationToken cancellationToken)
         {
-            return await _context.Tasks.Include(t => t.Tag).ToListAsync();
+            return await _context.Tasks.Include(t => t.Tag).Include(s => s.SubTasks).ToListAsync();
         }
 
         public async Task<List<Core.Entities.Task>> GetTasksByTag(int tagId, CancellationToken cancellationToken)
@@ -18,6 +18,11 @@ namespace Infra.Repositories
             return await _context.Tasks
                 .Where(x => x.Tag.Id == tagId)
                 .ToListAsync();
+        }
+
+        public async Task<Core.Entities.Task> GetWithFK(int id, CancellationToken cancellationToken)
+        {
+            return await _context.Tasks.Include(t => t.Tag).Include(s => s.SubTasks).FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
         }
     }
 }
