@@ -4,4 +4,4 @@ using MediatR;
 
 namespace Core.UseCases.SubTasksUseCases.UpdateSubTask.Boundaries;
 
-public sealed record UpdateSubTaskInput(int IdSubTask, string Title, DateTime DueDate, StatusEnum Status) : IRequest<SubTaskOutput>;
+public sealed record UpdateSubTaskInput(int IdSubTask, string? Title, DateTime? DueDate, StatusEnum? Status) : IRequest<SubTaskOutput>;
