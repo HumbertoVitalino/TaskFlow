@@ -8,6 +8,7 @@ public sealed class SubTask : BaseEntity
     public DateTime DueDate { get; set; }
     public StatusEnum Status { get; set; }
     public Task Task { get; set; }
+    public User User { get; set; }
 
     public SubTask() 
     {

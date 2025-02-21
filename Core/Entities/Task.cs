@@ -10,6 +10,7 @@ public sealed class Task : BaseEntity
     public StatusEnum Status { get; set; }
     public ICollection<SubTask> SubTasks { get; set; }
     public Tag? Tag { get; set; }
+    public User User { get; set; }
 
     public Task()
     {
