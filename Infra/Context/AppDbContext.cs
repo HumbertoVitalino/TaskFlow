@@ -15,16 +15,16 @@ public class AppDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        
+
         modelBuilder.Entity<Core.Entities.Task>()
             .HasOne(t => t.User)
             .WithMany(u => u.Tasks)
             .HasForeignKey(t => t.UserId)
             .OnDelete(DeleteBehavior.Restrict);
-        
+
         modelBuilder.Entity<Core.Entities.Task>()
             .HasOne(t => t.Tag)
-            .WithMany()
+            .WithMany(tag => tag.Tasks)
             .HasForeignKey(t => t.TagId)
             .OnDelete(DeleteBehavior.SetNull);
 
@@ -37,5 +37,11 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Core.Entities.Task>()
             .Property(t => t.Status)
             .HasConversion<string>();
+
+        modelBuilder.Entity<Tag>()
+            .HasOne(t => t.User)
+            .WithMany(u => u.Tags)
+            .HasForeignKey(t => t.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
