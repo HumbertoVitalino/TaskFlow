@@ -6,12 +6,15 @@ using Core.UseCases.TaskUseCases.GetTasksByTag.Boundaries;
 using Core.UseCases.TaskUseCases.Output;
 using Core.UseCases.TaskUseCases.UpdateTask.Boundaries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class TaskController : ControllerBase
 {
     private readonly IMediator _mediatr;
@@ -36,11 +39,21 @@ public class TaskController : ControllerBase
     }
 
     [HttpPost("CreateTask")]
-    public async Task<ActionResult<TaskOutput>> Create(CreateTaskInput input, CancellationToken cancellationToken)
+    public async Task<ActionResult<TaskOutput>> Create([FromBody] CreateTaskInput input, CancellationToken cancellationToken)
     {
-        var output = await _mediatr.Send(input, cancellationToken);
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+
+        if (userIdClaim is null)
+            return Unauthorized("User ID not found in token.");
+
+        var userId = int.Parse(userIdClaim.Value);
+
+        var inputWithUserId = input with { UserId = userId };
+
+        var output = await _mediatr.Send(inputWithUserId, cancellationToken);
         return Ok(output);
-    }    
+    }
+
 
     [HttpPut("UpdateTask/{id}")]
     public async Task<ActionResult<TaskOutput>> UpdateById(int? id, UpdateTaskInput input, CancellationToken cancellationToken)
