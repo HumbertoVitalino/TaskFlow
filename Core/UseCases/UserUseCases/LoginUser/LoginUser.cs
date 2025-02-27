@@ -32,7 +32,7 @@ public class LoginUser : IRequestHandler<LoginUserInput, UserOutput>
                 throw new UnauthorizedAccessException("Invalid email or password");
         }
 
-        var token = _jwtTokenService.GenerateToken(user.Email);
+        var token = _jwtTokenService.GenerateToken(user.Id, user.Email);
 
         var userOutput = new UserOutput
         {
