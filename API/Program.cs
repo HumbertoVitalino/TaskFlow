@@ -21,11 +21,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
-    options.SwaggerDoc("v1", new OpenApiInfo
-    {
-        Title = "Taskflow API",
-        Version = "v1"
-    });
+    options.SwaggerDoc("v1", new OpenApiInfo { Title = "TaskFlow API", Version = "v1" });
 
     var securityScheme = new OpenApiSecurityScheme
     {
@@ -37,13 +33,13 @@ builder.Services.AddSwaggerGen(options =>
         BearerFormat = "JWT"
     };
 
-    var securityRequirement = new OpenApiSecurityRequirement
+    options.AddSecurityDefinition("Bearer", securityScheme);
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         { securityScheme, new string[] { } }
-    };
+    });
 
-    options.AddSecurityDefinition("Bearer", securityScheme);
-    options.AddSecurityRequirement(securityRequirement);
+    options.OperationFilter<JwtAuthorizationOperationFilter>();
 });
 
 var app = builder.Build();
