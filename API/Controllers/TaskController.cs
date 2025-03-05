@@ -1,4 +1,5 @@
-﻿using Core.UseCases.TaskUseCases.AddTagToTask.Boundaries;
+﻿using Core.Requests;
+using Core.UseCases.TaskUseCases.AddTagToTask.Boundaries;
 using Core.UseCases.TaskUseCases.Boundaries;
 using Core.UseCases.TaskUseCases.DeleteTask.Boundaries;
 using Core.UseCases.TaskUseCases.GetAllTasks.Boundaries;
@@ -39,7 +40,7 @@ public class TaskController : ControllerBase
     }
 
     [HttpPost("CreateTask")]
-    public async Task<ActionResult<TaskOutput>> Create([FromBody] CreateTaskInput input, CancellationToken cancellationToken)
+    public async Task<ActionResult<TaskOutput>> Create([FromBody] CreateTaskRequest request, CancellationToken cancellationToken)
     {
         var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
 
@@ -48,9 +49,9 @@ public class TaskController : ControllerBase
 
         var userId = int.Parse(userIdClaim.Value);
 
-        var inputWithUserId = input with { UserId = userId };
+        var input = new CreateTaskInput(request.Title, request.Description, userId, request.DueDate, request.TagId);
 
-        var output = await _mediatr.Send(inputWithUserId, cancellationToken);
+        var output = await _mediatr.Send(input, cancellationToken);
         return Ok(output);
     }
 
