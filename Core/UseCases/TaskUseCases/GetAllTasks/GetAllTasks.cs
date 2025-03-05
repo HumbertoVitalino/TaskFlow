@@ -19,7 +19,7 @@ public sealed class GetAllTasks : IRequestHandler<GetAllTasksInput, List<TaskOut
 
     public async Task<List<TaskOutput>> Handle(GetAllTasksInput input, CancellationToken cancellationToken)
     {
-        var tasks = await _taskRepository.GetAllWithTag(cancellationToken);
+        var tasks = await _taskRepository.GetAllWithTag(input.UserId, cancellationToken);
         return _mapper.Map<List<TaskOutput>>(tasks);
     }
 }
