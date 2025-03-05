@@ -28,7 +28,13 @@ public class TaskController : ControllerBase
     [HttpGet("GetAllTasks")]
     public async Task<ActionResult<List<TaskOutput>>> GetAll(CancellationToken cancellationToken)
     {
-        var output = await _mediatr.Send(new GetAllTasksInput(), cancellationToken);
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+
+        if (userIdClaim is null)
+            return Unauthorized("User ID not found in token.");
+
+        var userId = int.Parse(userIdClaim.Value);
+        var output = await _mediatr.Send(new GetAllTasksInput(userId), cancellationToken);
         return Ok(output);
     }
 
