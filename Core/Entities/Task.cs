@@ -9,7 +9,10 @@ public sealed class Task : BaseEntity
     public DateTime DueDate { get; set; }
     public StatusEnum Status { get; set; }
     public ICollection<SubTask> SubTasks { get; set; }
+    public int? TagId { get; set; }
     public Tag? Tag { get; set; }
+    public int UserId { get; set; }
+    public User User { get; set; }
 
     public Task()
     {

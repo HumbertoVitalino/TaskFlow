@@ -2,6 +2,7 @@
 using Core.Entities;
 using Core.UseCases.TaskUseCases.Output;
 using Core.UseCases.SubTasksUseCases.Output;
+using Core.Response;
 
 public sealed class GetAllTasksMapper : Profile
 {
@@ -10,6 +11,8 @@ public sealed class GetAllTasksMapper : Profile
         CreateMap<Core.Entities.Task, TaskOutput>();
         CreateMap<SubTask, SubTaskOutput>()
             .ForMember(dest => dest.TaskId, opt => opt.MapFrom(src => src.Task.Id));
+
+        CreateMap<User, UserResponse>();
     }
 }
 

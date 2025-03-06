@@ -1,4 +1,6 @@
-﻿using Core.Enums;
+﻿using Core.Entities;
+using Core.Enums;
+using Core.Response;
 using Core.UseCases.SubTasksUseCases.Output;
 using Core.UseCases.TagUseCases.Output;
 
@@ -12,5 +14,6 @@ public sealed class TaskOutput
     public DateTime DueDate { get; set; }
     public StatusEnum Status { get; set; }
     public TagOutput Tag { get; set; }
+    public UserResponse User { get; set; }
     public List<SubTaskOutput> SubTasks { get; set; }
 }

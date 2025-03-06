@@ -3,4 +3,4 @@ using MediatR;
 
 namespace Core.UseCases.TaskUseCases.GetTasksByTag.Boundaries;
 
-public sealed record GetTasksByTagInput(int idTag) : IRequest<List<TaskOutput>>;
+public sealed record GetTasksByTagInput(int idTag, int userId) : IRequest<List<TaskOutput>>;
