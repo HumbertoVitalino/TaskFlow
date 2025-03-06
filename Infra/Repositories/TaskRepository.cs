@@ -8,21 +8,30 @@ namespace Infra.Repositories
     {
         public TaskRepository(AppDbContext context) : base(context) { }
 
-        public async Task<List<Core.Entities.Task>> GetAllWithTag(CancellationToken cancellationToken)
+        public async Task<List<Core.Entities.Task>> GetAllWithTag(int userId, CancellationToken cancellationToken)
         {
-            return await _context.Tasks.Include(t => t.Tag).Include(s => s.SubTasks).ToListAsync();
+            return await _context.Tasks
+                .Include(t => t.Tag)
+                .Include(s => s.SubTasks)
+                .Include(u => u.User)
+                .Where(u => u.UserId == userId)
+                .ToListAsync();
         }
 
-        public async Task<List<Core.Entities.Task>> GetTasksByTag(int tagId, CancellationToken cancellationToken)
+        public async Task<List<Core.Entities.Task>> GetTasksByTag(int tagId, int userId, CancellationToken cancellationToken)
         {
             return await _context.Tasks
                 .Where(x => x.Tag.Id == tagId)
+                .Where(x => x.UserId == userId)
                 .ToListAsync();
         }
 
         public async Task<Core.Entities.Task> GetWithFK(int id, CancellationToken cancellationToken)
         {
-            return await _context.Tasks.Include(t => t.Tag).Include(s => s.SubTasks).FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+            return await _context.Tasks
+                .Include(t => t.Tag)
+                .Include(s => s.SubTasks)
+                .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
         }
     }
 }

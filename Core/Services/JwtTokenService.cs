@@ -16,7 +16,7 @@ public class JwtTokenService
         _configuration = configuration;
     }
 
-    public string GenerateToken(string email)
+    public string GenerateToken(int userId, string email)
     {
         var secretKey = _configuration["Jwt:Secret"];
         var key = Encoding.ASCII.GetBytes(secretKey);
@@ -26,6 +26,7 @@ public class JwtTokenService
         {
             Subject = new ClaimsIdentity(new[]
             {
+                new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
                 new Claim(ClaimTypes.Email, email)
             }),
             Expires = DateTime.UtcNow.AddHours(2),

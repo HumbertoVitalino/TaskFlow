@@ -25,6 +25,9 @@ public class CreateTask : IRequestHandler<CreateTaskInput, TaskOutput>
     {
         var task = _mapper.Map<Entities.Task>(input);
 
+        if (input.UserId <= 0)
+            throw new ArgumentException("UserId is required.");
+
         if (input.TagId.HasValue)
         {
             var tag = await _tagRepository.Get(input.TagId, cancellationToken);
