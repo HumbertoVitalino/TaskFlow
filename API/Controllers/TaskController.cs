@@ -28,33 +28,23 @@ public class TaskController : ControllerBase
     [HttpGet("GetAllTasks")]
     public async Task<ActionResult<List<TaskOutput>>> GetAll(CancellationToken cancellationToken)
     {
-        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
-
-        if (userIdClaim is null)
-            return Unauthorized("User ID not found in token.");
-
-        var userId = int.Parse(userIdClaim.Value);
+        var userId = GetUserId();
         var output = await _mediatr.Send(new GetAllTasksInput(userId), cancellationToken);
         return Ok(output);
     }
 
     [HttpGet("GetTasksByTag/{id}")]
     public async Task<ActionResult<List<TaskOutput>>> GetTasksByTag(int id, CancellationToken cancellationToken)
-    {
-        var output = await _mediatr.Send(new GetTasksByTagInput(id), cancellationToken);
+    {        
+        var userId = GetUserId();
+        var output = await _mediatr.Send(new GetTasksByTagInput(id, userId), cancellationToken);
         return Ok(output);
     }
 
     [HttpPost("CreateTask")]
     public async Task<ActionResult<TaskOutput>> Create([FromBody] CreateTaskRequest request, CancellationToken cancellationToken)
     {
-        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
-
-        if (userIdClaim is null)
-            return Unauthorized("User ID not found in token.");
-
-        var userId = int.Parse(userIdClaim.Value);
-
+        var userId = GetUserId();
         var input = new CreateTaskInput(request.Title, request.Description, userId, request.DueDate, request.TagId);
 
         var output = await _mediatr.Send(input, cancellationToken);
@@ -92,5 +82,15 @@ public class TaskController : ControllerBase
 
         var output = await _mediatr.Send(deleteTaskInput, cancellationToken);
         return Ok(output);
+    }
+
+    private int GetUserId()
+    {
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+
+        if (userIdClaim is null)
+            throw new UnauthorizedAccessException("User ID not found in token.");
+
+        return int.Parse(userIdClaim.Value);
     }
 }
