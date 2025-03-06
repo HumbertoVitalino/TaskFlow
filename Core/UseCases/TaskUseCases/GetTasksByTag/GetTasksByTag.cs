@@ -19,7 +19,7 @@ public class GetTasksByTag : IRequestHandler<GetTasksByTagInput, List<TaskOutput
 
     public async Task<List<TaskOutput>> Handle(GetTasksByTagInput input, CancellationToken cancellationToken)
     {
-        var tasks = await _taskRepository.GetTasksByTag(input.idTag, cancellationToken);
+        var tasks = await _taskRepository.GetTasksByTag(input.idTag, input.userId, cancellationToken);
 
         if (tasks is null)
             return default!;

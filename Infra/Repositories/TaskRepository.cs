@@ -18,10 +18,11 @@ namespace Infra.Repositories
                 .ToListAsync();
         }
 
-        public async Task<List<Core.Entities.Task>> GetTasksByTag(int tagId, CancellationToken cancellationToken)
+        public async Task<List<Core.Entities.Task>> GetTasksByTag(int tagId, int userId, CancellationToken cancellationToken)
         {
             return await _context.Tasks
                 .Where(x => x.Tag.Id == tagId)
+                .Where(x => x.UserId == userId)
                 .ToListAsync();
         }
 
