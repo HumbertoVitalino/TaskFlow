@@ -53,9 +53,10 @@ public class TaskController : ControllerBase
 
 
     [HttpPut("UpdateTask/{id}")]
-    public async Task<ActionResult<TaskOutput>> UpdateById(int? id, UpdateTaskInput input, CancellationToken cancellationToken)
+    public async Task<ActionResult<TaskOutput>> UpdateById(int id, [FromBody]UpdateTaskRequest request, CancellationToken cancellationToken)
     {
-        if (id is null || id != input.Id) return BadRequest();
+        var userId = GetUserId();
+        var input = new UpdateTaskInput(id, request.Title, request.Description, request.DueDate, userId);
 
         var output = await _mediatr.Send(input, cancellationToken);
         return Ok(output);
