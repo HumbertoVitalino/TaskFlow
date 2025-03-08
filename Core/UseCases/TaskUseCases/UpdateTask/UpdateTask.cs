@@ -25,9 +25,23 @@ public class UpdateTask : IRequestHandler<UpdateTaskInput, TaskOutput>
 
         if (task == null) return default!;
 
-        task.Title = input.Title;
-        task.Description = input.Description;
-        task.DueDate = input.DueDate;
+        if (task.UserId != input.UserId)
+            return default!;
+
+        if (input.Title != null)
+        {
+            task.Title = input.Title;
+        }
+
+        if (input.Description != null)
+        {
+            task.Description = input.Description;
+        }
+
+        if (input.DueDate != null)
+        {
+            task.DueDate = input.DueDate.Value;
+        }
 
         _taskRepository.Update(task);
 
