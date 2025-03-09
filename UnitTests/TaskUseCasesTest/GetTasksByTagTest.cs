@@ -16,7 +16,7 @@ public class GetTasksByTagTest : IClassFixture<GetTasksByTagTestFixture>
     {
         // Arrange
         var input = _fixture.SetupValidInput();
-        _fixture.SetupTasksFound(input.idTag);
+        _fixture.SetupTasksFound(input.idTag, input.userId);
 
         // Act
         var result = await _fixture.HandleUseCaseAsync(input);
@@ -32,7 +32,7 @@ public class GetTasksByTagTest : IClassFixture<GetTasksByTagTestFixture>
     {
         // Arrange
         var input = _fixture.SetupValidInput();
-        _fixture.SetupTasksNotFound(input.idTag);
+        _fixture.SetupTasksNotFound(input.idTag, input.userId);
 
         // Act
         var result = await _fixture.HandleUseCaseAsync(input);

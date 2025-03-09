@@ -39,22 +39,23 @@ public class GetTasksByTagTestFixture
     public async Task<List<TaskOutput>> HandleUseCaseAsync(GetTasksByTagInput input) =>
         await _useCase.Handle(input, CancellationToken);
 
-    public void SetupTasksFound(int tagId)
+    public void SetupTasksFound(int tagId, int userId)
     {
         var tasks = new AutoFaker<Core.Entities.Task>()
             .RuleFor(t => t.Id, f => f.Random.Int(1, 1000))
             .RuleFor(t => t.Tag, _ => new Core.Entities.Tag { Id = tagId })
+            .RuleFor(u => u.User, _ => new Core.Entities.User { Id = userId })
             .Generate(3);
 
         _taskRepository
-            .Setup(repo => repo.GetTasksByTag(tagId, It.IsAny<CancellationToken>()))
+            .Setup(repo => repo.GetTasksByTag(tagId, userId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(tasks);
     }
 
-    public void SetupTasksNotFound(int tagId)
+    public void SetupTasksNotFound(int tagId, int userId)
     {
         _taskRepository
-            .Setup(repo => repo.GetTasksByTag(tagId, It.IsAny<CancellationToken>()))
+            .Setup(repo => repo.GetTasksByTag(tagId, userId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(new List<Core.Entities.Task>());
     }
 
