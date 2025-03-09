@@ -3,4 +3,4 @@ using MediatR;
 
 namespace Core.UseCases.TagUseCases.DeleteTag.Boundaries;
 
-public sealed record DeleteTagInput(int Id) : IRequest<TagOutput>;
+public sealed record DeleteTagInput(int Id, int UserId) : IRequest<TagOutput>;
