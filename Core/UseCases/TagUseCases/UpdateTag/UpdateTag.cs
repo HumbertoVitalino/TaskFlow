@@ -25,8 +25,13 @@ public class UpdateTag : IRequestHandler<UpdateTagInput, TagOutput>
 
         if (tag == null) return default!;
 
-        tag.Name = input.Name;
-        tag.Description = input.Description;
+        if (tag.UserId != input.UserId) return default!;
+
+        if (input.Name != null)
+            tag.Name = input.Name;
+
+        if (input.Description != null)
+            tag.Description = input.Description;
 
         _tagRepository.Update(tag);
 
