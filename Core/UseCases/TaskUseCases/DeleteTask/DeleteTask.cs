@@ -25,6 +25,8 @@ public sealed class DeleteTask : IRequestHandler<DeleteTaskInput, TaskOutput>
 
         if (task == null) return default!;
 
+        if (task.UserId != input.UserId) return default!;
+
         _taskRepository.Delete(task);
         await _unitOfWork.Commit(cancellationToken);
 

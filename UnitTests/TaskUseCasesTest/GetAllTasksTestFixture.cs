@@ -39,21 +39,22 @@ public class GetAllTasksTestFixture
     public async Task<List<TaskOutput>> HandleUseCaseAsync(GetAllTasksInput input) =>
         await _useCase.Handle(input, CancellationToken);
 
-    public void SetupTasksFound()
+    public void SetupTasksFound(int userId)
     {
         var tasks = new AutoFaker<Core.Entities.Task>()
             .RuleFor(t => t.Id, f => f.Random.Int(1, 1000))
+            .RuleFor(i => i.UserId, _ => userId)
             .Generate(5);
 
         _taskRepository
-            .Setup(repo => repo.GetAllWithTag(It.IsAny<CancellationToken>()))
+            .Setup(repo => repo.GetAllWithTag(userId ,It.IsAny<CancellationToken>()))
             .ReturnsAsync(tasks);
     }
 
-    public void SetupTasksNotFound()
+    public void SetupTasksNotFound(int userId)
     {
         _taskRepository
-            .Setup(repo => repo.GetAllWithTag(It.IsAny<CancellationToken>()))
+            .Setup(repo => repo.GetAllWithTag(userId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(new List<Core.Entities.Task>());
     }
 

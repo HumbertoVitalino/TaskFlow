@@ -16,7 +16,7 @@ public class GetAllTasksTest : IClassFixture<GetAllTasksTestFixture>
     {
         // Arrange
         var input = _fixture.SetupValidInput();
-        _fixture.SetupTasksFound();
+        _fixture.SetupTasksFound(1);
 
         // Act
         var result = await _fixture.HandleUseCaseAsync(input);
@@ -32,7 +32,7 @@ public class GetAllTasksTest : IClassFixture<GetAllTasksTestFixture>
     {
         // Arrange
         var input = _fixture.SetupValidInput();
-        _fixture.SetupTasksNotFound();
+        _fixture.SetupTasksNotFound(2);
 
         // Act
         var result = await _fixture.HandleUseCaseAsync(input);
