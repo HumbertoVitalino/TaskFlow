@@ -79,9 +79,10 @@ public class TaskController : ControllerBase
         if (id is null)
             return BadRequest();
 
-        var deleteTaskInput = new DeleteTaskInput(id.Value);
+        var userId = GetUserId();
+        var input = new DeleteTaskInput(id.Value, userId);
 
-        var output = await _mediatr.Send(deleteTaskInput, cancellationToken);
+        var output = await _mediatr.Send(input, cancellationToken);
         return Ok(output);
     }
 
