@@ -21,7 +21,7 @@ public class UpdateTask : IRequestHandler<UpdateTaskInput, TaskOutput>
 
     public async Task<TaskOutput> Handle(UpdateTaskInput input, CancellationToken cancellationToken)
     {
-        var task = await _taskRepository.Get(input.Id, cancellationToken);
+        var task = await _taskRepository.GetWithFK(input.Id, cancellationToken);
 
         if (task == null) return default!;
 

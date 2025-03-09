@@ -31,6 +31,7 @@ namespace Infra.Repositories
             return await _context.Tasks
                 .Include(t => t.Tag)
                 .Include(s => s.SubTasks)
+                .Include(u => u.User)
                 .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
         }
     }
