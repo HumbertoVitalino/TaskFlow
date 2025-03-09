@@ -65,9 +65,8 @@ public class TaskController : ControllerBase
     [HttpPut("AddTagToTask/{id}/{idTag}")]
     public async Task<ActionResult<TaskOutput>> AddTagToTask(int id, int idTag, CancellationToken cancellationToken)
     {
-        var input = new AddTagToTaskInput(id, idTag);
-
-        if(input == null) return BadRequest();
+        var userId = GetUserId();
+        var input = new AddTagToTaskInput(id, idTag, userId);
 
         var output = await _mediatr.Send(input, cancellationToken);
         return Ok(output);
