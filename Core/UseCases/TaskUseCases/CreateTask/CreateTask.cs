@@ -32,6 +32,8 @@ public class CreateTask : IRequestHandler<CreateTaskInput, TaskOutput>
         {
             var tag = await _tagRepository.Get(input.TagId, cancellationToken);
 
+            if (tag.UserId != input.UserId) return default!;
+
             if (tag is null)
                 throw new KeyNotFoundException($"Tag with ID {input.TagId.Value} not found.");
 
