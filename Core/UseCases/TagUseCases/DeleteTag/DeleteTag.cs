@@ -23,6 +23,9 @@ public sealed class DeleteTag : IRequestHandler<DeleteTagInput, TagOutput>
     {
         var tag = await _tagRepository.Get(input.Id, cancellationToken);
 
+        if (tag.UserId != input.UserId)
+            return default!;
+
         if (tag == null) return default!;
 
         _tagRepository.Delete(tag);

@@ -37,7 +37,7 @@ public class AddTagToTask : IRequestHandler<AddTagToTaskInput, TaskOutput>
             return default!;
 
         if (task.Tag is null)
-            return default!;
+            task.Tag = new Tag();
 
         task.Tag = tag;
 

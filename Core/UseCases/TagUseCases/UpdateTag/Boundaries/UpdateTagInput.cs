@@ -3,4 +3,4 @@ using MediatR;
 
 namespace Core.UseCases.TagUseCases.UpdateTag.Boundaries;
 
-public sealed record UpdateTagInput(int Id, string Name, string? Description) : IRequest<TagOutput>;
+public sealed record UpdateTagInput(int Id, string? Name, string? Description, int UserId) : IRequest<TagOutput>;

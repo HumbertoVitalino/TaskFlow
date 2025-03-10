@@ -3,4 +3,4 @@ using MediatR;
 
 namespace Core.UseCases.TagUseCases.GetAllTags.Boundaries;
 
-public sealed record GetAllTagsInput : IRequest<List<TagOutput>>;
+public sealed record GetAllTagsInput(int UserId) : IRequest<List<TagOutput>>;
