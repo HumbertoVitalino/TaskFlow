@@ -19,7 +19,7 @@ public sealed class GetAllTags : IRequestHandler<GetAllTagsInput, List<TagOutput
 
     public async Task<List<TagOutput>> Handle(GetAllTagsInput input, CancellationToken cancellationToken)
     {
-        var tags = await _tagRepository.GetAll(cancellationToken);
+        var tags = await _tagRepository.GetAllByUserId(input.UserId, cancellationToken);
         return _mapper.Map<List<TagOutput>>(tags);
     }
 }

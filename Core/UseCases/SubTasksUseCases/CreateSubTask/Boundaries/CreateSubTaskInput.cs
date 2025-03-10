@@ -3,4 +3,4 @@ using MediatR;
 
 namespace Core.UseCases.SubTasksUseCases.CreateSubTask.Boundaries;
 
-public sealed record CreateSubTaskInput(string Title, DateTime DueDate, int TaskId) : IRequest<SubTaskOutput>;
+public sealed record CreateSubTaskInput(string Title, DateTime DueDate, int TaskId, int UserId) : IRequest<SubTaskOutput>;

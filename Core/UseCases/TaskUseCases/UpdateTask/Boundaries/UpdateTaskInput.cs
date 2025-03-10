@@ -3,4 +3,4 @@ using MediatR;
 
 namespace Core.UseCases.TaskUseCases.UpdateTask.Boundaries;
 
-public sealed record UpdateTaskInput(int Id, string Title, string Description, DateTime DueDate) : IRequest<TaskOutput>;
+public sealed record UpdateTaskInput(int Id, string? Title, string? Description, DateTime? DueDate, int UserId) : IRequest<TaskOutput>;

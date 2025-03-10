@@ -31,6 +31,9 @@ public class CreateSubTask : IRequestHandler<CreateSubTaskInput, SubTaskOutput>
         if (task is null)
             throw new KeyNotFoundException($"Task with ID {input.TaskId} not found.");
 
+        if (task.UserId != subtask.UserId)
+            return default!;
+
         subtask.Task = task;
 
         _subTaskRepository.Create(subtask);

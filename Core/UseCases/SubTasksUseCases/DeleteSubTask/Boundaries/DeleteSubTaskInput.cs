@@ -3,4 +3,4 @@ using MediatR;
 
 namespace Core.UseCases.SubTasksUseCases.DeleteSubTask.Boundaries;
 
-public sealed record DeleteSubTaskInput(int Id) : IRequest<SubTaskOutput>;
+public sealed record DeleteSubTaskInput(int Id, int UserId) : IRequest<SubTaskOutput>;

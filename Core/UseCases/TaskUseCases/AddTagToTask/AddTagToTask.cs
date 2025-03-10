@@ -28,7 +28,14 @@ public class AddTagToTask : IRequestHandler<AddTagToTaskInput, TaskOutput>
         if (task is null)
             return default!;
 
+        if (task.UserId != input.UserId)
+            return default!;
+
         var tag = await _tagRepository.Get(input.IdTag, cancellationToken);
+
+        if (tag.UserId != input.UserId) 
+            return default!;
+
         if (task.Tag is null)
             task.Tag = new Tag();
 

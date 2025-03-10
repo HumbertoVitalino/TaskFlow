@@ -25,6 +25,9 @@ public sealed class DeleteTag : IRequestHandler<DeleteTagInput, TagOutput>
 
         if (tag == null) return default!;
 
+        if (tag.UserId != input.UserId)
+            return default!;
+
         _tagRepository.Delete(tag);
         await _unitOfWork.Commit(cancellationToken);
 

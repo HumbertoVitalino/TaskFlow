@@ -57,5 +57,5 @@ public class GetAllTagsTestFixture
             .ReturnsAsync(new List<Tag>());
     }
 
-    public GetAllTagsInput SetupValidInput() => new();
+    public GetAllTagsInput SetupValidInput() => new(1);
 }
