@@ -50,12 +50,10 @@ public class TagController : ControllerBase
     }
 
     [HttpDelete("DeleteTag/{id}")]
-    public async Task<ActionResult<TagOutput>> DeleteById(int? id, CancellationToken cancellationToken)
+    public async Task<ActionResult<TagOutput>> DeleteById(int id, CancellationToken cancellationToken)
     {
-        if (id is null) return BadRequest();
-
         var userId = GetUserId();
-        var input = new DeleteTagInput(id.Value, userId);
+        var input = new DeleteTagInput(id, userId);
 
         var output = await _mediatr.Send(input, cancellationToken);
         return Ok(output);
