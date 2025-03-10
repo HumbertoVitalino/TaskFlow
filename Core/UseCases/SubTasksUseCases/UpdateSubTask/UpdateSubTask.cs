@@ -26,14 +26,17 @@ public class UpdateSubTask : IRequestHandler<UpdateSubTaskInput, SubTaskOutput>
     {
         var subtask = await _subTaskRepository.GetWithTask(input.IdSubTask, cancellationToken);
 
+        if (subtask.UserId != input.UserId)
+            return default!;
+
         if (subtask == null)
             throw new KeyNotFoundException($"SubTask with key {input.IdSubTask} not found.");
                 
-        if(input.Status.HasValue)
+        if (input.Status.HasValue)
             subtask.Status = input.Status.Value;
 
         if (!string.IsNullOrWhiteSpace(input.Title))
-            subtask.Title = input.Title;
+            subtask.Title = input.Title; 
 
         if (input.DueDate.HasValue)
             subtask.DueDate = input.DueDate.Value;
@@ -41,6 +44,9 @@ public class UpdateSubTask : IRequestHandler<UpdateSubTaskInput, SubTaskOutput>
         _subTaskRepository.Update(subtask);
 
         var task = await _taskRepository.GetWithFK(subtask.Task.Id, cancellationToken);
+
+        if (task.UserId != subtask.UserId)
+            return default!;
 
         if (task is not null)
         {
