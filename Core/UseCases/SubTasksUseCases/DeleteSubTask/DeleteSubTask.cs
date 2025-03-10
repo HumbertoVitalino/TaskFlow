@@ -26,6 +26,9 @@ public class DeleteSubTask : IRequestHandler<DeleteSubTaskInput, SubTaskOutput>
         if (subtask is null)
             return default!;
 
+        if (subtask.UserId != input.UserId)
+            return default!;
+
         _subTaskRepository.Delete(subtask);
         await _unitOfWork.Commit(cancellationToken);
 

@@ -23,10 +23,10 @@ public sealed class DeleteTag : IRequestHandler<DeleteTagInput, TagOutput>
     {
         var tag = await _tagRepository.Get(input.Id, cancellationToken);
 
+        if (tag == null) return default!;
+
         if (tag.UserId != input.UserId)
             return default!;
-
-        if (tag == null) return default!;
 
         _tagRepository.Delete(tag);
         await _unitOfWork.Commit(cancellationToken);
