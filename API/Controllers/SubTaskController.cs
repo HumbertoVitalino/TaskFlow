@@ -5,6 +5,7 @@ using Core.UseCases.SubTasksUseCases.Output;
 using Core.UseCases.SubTasksUseCases.UpdateSubTask.Boundaries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace API.Controllers;
 
@@ -43,5 +44,15 @@ public class SubTaskController : ControllerBase
 
         var output = await _mediatr.Send(deleteSubTaskInput, cancellationToken);
         return Ok(output);
+    }
+
+    private int GetUserId()
+    {
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+
+        if (userIdClaim is null)
+            throw new UnauthorizedAccessException("User ID not found in token.");
+
+        return int.Parse(userIdClaim.Value);
     }
 }
