@@ -396,3 +396,19 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# React Specific
+
+# Ignorar node_modules (dependências do React)
+frontend/node_modules/
+
+# Ignorar build result (arquivos de produção do React)
+frontend/build/
+
+# Ignorar arquivos temporários e de cache do React
+frontend/.env
+frontend/.eslintcache
+frontend/.prettiercache
+
+# Ignorar logs do React
+frontend/*.
