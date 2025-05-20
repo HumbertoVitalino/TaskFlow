@@ -6,7 +6,7 @@ A task management application designed to help users track and organize their ac
 
 - **Task Organization**: Easily create, update, and delete tasks.
 - **Activity Tracking**: Monitor progress and manage deadlines effectively.
-- **User-Friendly Interface**: Intuitive design for seamless task management.
+- **User-Friendly Interface**: Intuitive design for seamless task management using react.
 - **Scalable Backend**: Built to handle growth and complexity.
 
 ## Tech Stack
